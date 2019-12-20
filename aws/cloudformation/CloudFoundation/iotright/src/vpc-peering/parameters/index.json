@@ -1,0 +1,21 @@
+{
+  "ParamAuthorName": {
+    "Type": "String",
+    "Default": "CloudFoundation",
+    "Description": "Added as a tag called 'Owner' to every resource for easier management."
+  },
+  "CommonResourceVPCStackName": {
+    "Type": "String",
+    "Description": "Name of an active CloudFormation stack that contains the common networking / VPC resources",
+    "MinLength": 1,
+    "MaxLength": 255,
+    "AllowedPattern": "^[a-zA-Z][-a-zA-Z0-9]*$"
+  },
+  "RequestingVPCStackName": {
+    "Type": "String",
+    "Description": "Name of an active CloudFormation stack that contains the requesting VPC",
+    "MinLength": 1,
+    "MaxLength": 255,
+    "AllowedPattern": "^[a-zA-Z][-a-zA-Z0-9]*$"
+  }
+}

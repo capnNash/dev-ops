@@ -1,0 +1,18 @@
+{
+  "CacheSubnetGroupName": {
+    "Type": "AWS::ElastiCache::SubnetGroup",
+    "Properties": {
+      "Description": "VPC Subnets for the ElastiCache Memcached Cluster",
+      "SubnetIds": {
+        "Fn::Split": [
+          ",",
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${ParamNetworkStackName}-CacheSubnets"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

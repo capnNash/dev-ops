@@ -1,0 +1,58 @@
+{
+  "CacheAccessSecurityGroup": {
+    "Description": "Security group for Access to the ElastiCache Cluster",
+    "Value": { "Ref": "ElastiCacheSecurityGroup" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ElastiCacheSecurityGroup"
+      }
+    }
+  },
+  "ElastiCacheStackName": {
+    "Description":"Stack name",
+    "Value":{"Ref":"AWS::StackName"},
+    "Export":{
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}"
+      }
+    }
+  },
+  "ElastiCacheClusterArn": {
+    "Description":"ElastiCache Cluster ARN",
+    "Value":{"Fn::Sub":"arn:aws:elasticache:${AWS::Region}:${AWS::AccountId}:cluster/${CacheCluster}"},
+    "Export":{
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ElastiCacheClusterArn"
+      }
+    }
+  },
+  "ElastiCacheClusterId": {
+    "Description":"ElastiCache Cluster ID",
+    "Value":{"Ref":"CacheCluster"},
+    "Export":{
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ElastiCacheClusterID"
+      }
+    }
+  },
+  "ElastiCacheAddress": {
+    "Description":"ElastiCache endpoint address",
+    "Value":{"Fn::GetAtt":["CacheCluster", "ConfigurationEndpoint.Address"]},
+    "Export":{
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ElastiCacheAddress"
+      }
+    }
+  },
+  "ElastiCachePort": {
+    "Description":"ElastiCache endpoint address",
+    "Value":{"Fn::GetAtt":["CacheCluster", "ConfigurationEndpoint.Port"]},
+    "Export":{
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ElastiCachePort"
+      }
+    }
+  }
+
+
+}

@@ -1,0 +1,28 @@
+
+{
+  "BastionSecurityGroup": {
+    "Type": "AWS::EC2::SecurityGroup",
+    "Properties": {
+      "GroupDescription": "Security group for Bastion instance",
+      "VpcId": { "Ref": "VPC" },
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "Bastion Instance Security Group"
+        },
+        {
+          "Key": "Owner",
+          "Value": { "Ref": "ParamAuthorName" }
+        }
+      ],
+      "SecurityGroupIngress": [
+        {
+          "IpProtocol":"tcp",
+          "FromPort":"22",
+          "ToPort":"22",
+          "CidrIp": { "Ref": "ParamAllowSSHFromRange" }
+        }
+      ]
+    }
+  }
+}

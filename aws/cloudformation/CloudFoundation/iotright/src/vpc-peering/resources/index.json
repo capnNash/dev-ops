@@ -1,0 +1,119 @@
+{
+  "VPCPeeringConnection":{
+    "Type" : "AWS::EC2::VPCPeeringConnection",
+    "Properties" : {
+      "PeerVpcId" : {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${CommonResourceVPCStackName}-VPCId"
+        }
+      },
+      "VpcId" : {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${RequestingVPCStackName}-VPCId"
+        }
+      }
+    }
+  },
+  "PublicPeeringRouteToCommon":{
+    "Type":"AWS::EC2::Route",
+    "DependsOn":"VPCPeeringConnection",
+    "Properties":{
+      "DestinationCidrBlock":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${CommonResourceVPCStackName}-VPCCidr"
+        }
+      },
+      "RouteTableId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${RequestingVPCStackName}-PublicRouteTable"
+        }
+      },
+      "VpcPeeringConnectionId":{"Ref":"VPCPeeringConnection"}
+    }
+  },
+  "PrivatePeeringRouteToCommon":{
+    "Type":"AWS::EC2::Route",
+    "DependsOn":"VPCPeeringConnection",
+    "Properties":{
+      "DestinationCidrBlock":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${CommonResourceVPCStackName}-VPCCidr"
+        }
+      },
+      "RouteTableId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${RequestingVPCStackName}-PrivateRouteTable"
+        }
+      },
+      "VpcPeeringConnectionId":{"Ref":"VPCPeeringConnection"}
+    }
+  },
+  "PublicPeeringRouteToApplication":{
+    "Type":"AWS::EC2::Route",
+    "DependsOn":"VPCPeeringConnection",
+    "Properties":{
+      "DestinationCidrBlock":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${RequestingVPCStackName}-VPCCidr"
+        }
+      },
+      "RouteTableId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${CommonResourceVPCStackName}-PublicRouteTable"
+        }
+      },
+      "VpcPeeringConnectionId":{"Ref":"VPCPeeringConnection"}
+    }
+  },
+  "PrivatePeeringRouteToApplication":{
+    "Type":"AWS::EC2::Route",
+    "DependsOn":"VPCPeeringConnection",
+    "Properties":{
+      "DestinationCidrBlock":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${RequestingVPCStackName}-VPCCidr"
+        }
+      },
+      "RouteTableId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${CommonResourceVPCStackName}-PrivateRouteTable"
+        }
+      },
+      "VpcPeeringConnectionId":{"Ref":"VPCPeeringConnection"}
+    }
+  },
+  "DbPeeringRouteFromCommon":{
+    "Type":"AWS::EC2::Route",
+    "DependsOn":"VPCPeeringConnection",
+    "Properties":{
+      "DestinationCidrBlock":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${RequestingVPCStackName}-VPCCidr"
+        }
+      },
+      "RouteTableId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${CommonResourceVPCStackName}-DbRouteTable"
+        }
+      },
+      "VpcPeeringConnectionId":{"Ref":"VPCPeeringConnection"}
+    }
+  },
+  "CachePeeringRouteFromCommon":{
+    "Type":"AWS::EC2::Route",
+    "DependsOn":"VPCPeeringConnection",
+    "Properties":{
+      "DestinationCidrBlock":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${RequestingVPCStackName}-VPCCidr"
+        }
+      },
+      "RouteTableId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${CommonResourceVPCStackName}-CacheRouteTable"
+        }
+      },
+      "VpcPeeringConnectionId":{"Ref":"VPCPeeringConnection"}
+    }
+  }
+}

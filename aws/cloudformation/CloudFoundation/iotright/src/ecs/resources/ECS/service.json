@@ -1,0 +1,53 @@
+{
+  "WebService": {
+    "Type":"AWS::ECS::Service",
+    "DependsOn":"WebAutoscalingGroup",
+    "Properties": {
+      "Cluster": {
+        "Ref": "ECSServiceCluster"
+      },
+      "DesiredCount": {"Ref": "DesiredTaskCount"},
+      "DeploymentConfiguration":{
+        "MaximumPercent":200,
+        "MinimumHealthyPercent":50
+      },
+      "LoadBalancers": [
+        {
+          "ContainerName": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Ref": "AWS::StackName"
+                },
+                "-web-task-container"
+              ]
+            ]
+          },
+          "ContainerPort": {
+            "Ref":"ContainerPort"
+          },
+          "TargetGroupArn": {
+            "Ref": "WebALBTargetGroup"
+          }
+        }
+      ],
+      "PlacementStrategies": [
+        {
+          "Type": "spread",
+          "Field": "attribute:ecs.availability-zone"
+        },
+        {
+          "Type": "spread",
+          "Field": "instanceId"
+        }
+      ],
+      "Role": {
+        "Ref": "WebServiceRole"
+      },
+      "TaskDefinition": {
+        "Ref": "WebTaskDefinition"
+      }
+    }
+  }
+}

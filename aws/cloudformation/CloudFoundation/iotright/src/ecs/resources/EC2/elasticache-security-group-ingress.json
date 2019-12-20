@@ -1,0 +1,26 @@
+{
+  "ElastiCacheSecurityGroupIngressFromWeb":{
+    "Type":"AWS::EC2::SecurityGroupIngress",
+    "Properties":{
+      "IpProtocol": "tcp",
+      "FromPort": {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamsElastiCacheStackName}-ElastiCachePort"
+        }
+      },
+      "ToPort": {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamsElastiCacheStackName}-ElastiCachePort"
+        }
+      },
+      "GroupId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamsElastiCacheStackName}-ElastiCacheSecurityGroup"
+        }
+      },
+      "SourceSecurityGroupId": {
+        "Ref":"CloudInstanceSecurityGroup"
+      }
+    }
+  }
+}

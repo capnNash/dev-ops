@@ -1,0 +1,22 @@
+{
+  "AliasURL": {
+    "Type": "String",
+    "Default": "whatyoureallywant.example.com",
+    "Description": "The url you want to createa record set for, that will alias to the DNSNameToAliasTo"
+  },
+  "HostedZone": {
+    "Type": "String",
+    "Default": "aquestor.com.",
+    "Description": "the root hosted zone"
+  },
+  "ALBStack": {
+    "Type": "String",
+    "Default": "ALBStack",
+    "Description": "Stack name with exported hosted zone id of the ALB"
+  },
+  "DNSNameToAliasTo": {
+    "Type": "String",
+    "Default": "whatyoualiasto.example.com.",
+    "Description": "the url you're replacing with the AliasURL"
+  }
+}

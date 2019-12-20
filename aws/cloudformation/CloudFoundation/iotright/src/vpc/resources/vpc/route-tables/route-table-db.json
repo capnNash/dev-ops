@@ -1,0 +1,69 @@
+{
+  "DbRouteTable": {
+    "Type": "AWS::EC2::RouteTable",
+    "Condition":"CreateServiceSubnets",
+    "Properties": {
+      "VpcId": { "Ref": "VPC" },
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": {
+            "Fn::Sub": "${AWS::StackName}-db-route-table"
+          }
+        },
+        {
+          "Key": "Owner",
+          "Value": { "Ref": "ParamAuthorName" }
+        }
+      ]
+    }
+  },
+  "RouteAssociationDbSubnetA": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition":"CreateServiceSubnets",
+    "Properties": {
+      "SubnetId": { "Ref": "DbSubnetA" },
+      "RouteTableId": { "Ref": "DbRouteTable" }
+    }
+  },
+  "RouteAssociationDbSubnetB": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition":"CreateServiceSubnets",
+    "Properties": {
+      "SubnetId": { "Ref": "DbSubnetB" },
+      "RouteTableId": { "Ref": "DbRouteTable" }
+    }
+  },
+  "RouteAssociationDbSubnetC": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition": "CreateServiceSubnetsThreePlusAZs",
+    "Properties": {
+      "SubnetId": { "Ref": "DbSubnetC" },
+      "RouteTableId": { "Ref": "DbRouteTable" }
+    }
+  },
+  "RouteAssociationDbSubnetD": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Properties": {
+      "SubnetId": { "Ref": "DbSubnetD" },
+      "RouteTableId": { "Ref": "DbRouteTable" }
+    }
+  },
+  "RouteAssociationDbSubnetE": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Properties": {
+      "SubnetId": { "Ref": "DbSubnetE" },
+      "RouteTableId": { "Ref": "DbRouteTable" }
+    }
+  },
+  "RouteAssociationDbSubnetF": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Properties": {
+      "SubnetId": { "Ref": "DbSubnetF" },
+      "RouteTableId": { "Ref": "DbRouteTable" }
+    }
+  }
+}

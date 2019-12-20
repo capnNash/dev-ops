@@ -1,0 +1,38 @@
+{
+  "WebALB": {
+    "Type":"AWS::ElasticLoadBalancingV2::LoadBalancer",
+    "Properties":{
+      "Name":{
+        "Fn::Join" : [ "-", [
+          "ALB", {
+            "Ref":"AWS::StackName"
+          }
+        ] ]
+      },
+      "Scheme":{
+        "Ref":"ALBScheme"
+      },
+      "LoadBalancerAttributes":[
+        {
+          "Key":"idle_timeout.timeout_seconds",
+          "Value":"300"
+        }
+      ],
+      "SecurityGroups":[
+        {
+          "Ref":"WebALBSecurityGroup"
+        }
+      ],
+      "Subnets": {
+          "Fn::Split": [
+            ",",
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParamsApplicationVPCStackName}-PublicSubnets"
+              }
+            }
+          ]
+      }
+    }
+  }
+}

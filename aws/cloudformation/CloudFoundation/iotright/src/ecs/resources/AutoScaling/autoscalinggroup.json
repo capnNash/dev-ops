@@ -1,0 +1,61 @@
+{
+  "WebAutoscalingGroup": {
+    "Type": "AWS::AutoScaling::AutoScalingGroup",
+    "Properties": {
+      "LaunchConfigurationName": {
+        "Ref": "WebLaunchConfig"
+      },
+      "DesiredCapacity": {
+        "Ref": "DesiredCapacity"
+      },
+      "MinSize": {
+        "Ref": "MinSize"
+      },
+      "MaxSize": {
+        "Ref": "MaxSize"
+      },
+      "MetricsCollection":[
+        {
+          "Granularity":"1Minute",
+          "Metrics":[
+            "GroupInServiceInstances","GroupPendingInstances","GroupStandbyInstances","GroupTerminatingInstances","GroupTotalInstances"
+          ]
+        }
+      ],
+      "VPCZoneIdentifier": {
+        "Ref": "SubnetIDs"
+      },
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": {
+            "Fn::Join": [
+              "-",
+              [
+                {"Ref": "AWS::StackName"},
+                "Instance"
+              ]
+            ]
+          },
+          "PropagateAtLaunch": true
+        }
+      ]
+    },
+    "CreationPolicy": {
+      "ResourceSignal": {
+        "Count": {
+          "Ref": "DesiredCapacity"
+        },
+        "Timeout": "PT15M"
+      }
+    },
+    "UpdatePolicy": {
+      "AutoScalingRollingUpdate": {
+        "MinInstancesInService":"1",
+        "MaxBatchSize":"2",
+        "PauseTime":"PT10M",
+        "WaitOnResourceSignals":"true"
+      }
+    }
+  }
+}

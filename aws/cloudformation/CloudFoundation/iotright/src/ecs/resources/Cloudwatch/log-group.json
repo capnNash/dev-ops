@@ -1,0 +1,19 @@
+{
+  "WebTaskLogs": {
+    "Type": "AWS::Logs::LogGroup",
+    "Properties": {
+      "LogGroupName": {
+        "Fn::Join": [
+          "-",
+          [
+            {
+              "Ref": "AWS::StackName"
+            },
+            "WebTaskLogs"
+          ]
+        ]
+      },
+      "RetentionInDays": 14
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "WebServiceCpuAbove80": {
+    "Type":"AWS::CloudWatch::Alarm",
+    "Condition": "CreateAutoScalingResources",
+    "Properties": {
+      "Period": 60,
+      "EvaluationPeriods": 5,
+      "Statistic": "Average",
+      "Threshold": 70,
+      "AlarmDescription": "As our CPU utilization exceeds 70%",
+      "ComparisonOperator":"GreaterThanThreshold",
+      "AlarmActions": [
+        {
+          "Ref": "WebServiceIncreasePolicy"
+        }
+      ],
+      "Namespace": "AWS/ECS",
+      "Dimensions": [
+        {
+          "Name": "ClusterName",
+          "Value": {
+            "Ref": "ECSServiceCluster"
+          }
+        },
+        {
+          "Name": "ServiceName",
+          "Value": {
+            "Fn::GetAtt": [
+              "WebService",
+              "Name"
+            ]
+          }
+        }
+      ],
+      "MetricName": "CPUUtilization"
+    }
+  },
+  "WebInstancesCpuAbove80": {
+    "Type": "AWS::CloudWatch::Alarm",
+    "Condition": "CreateAutoScalingResources",
+    "Properties": {
+      "Period": 60,
+      "EvaluationPeriods": 5,
+      "Statistic": "Average",
+      "Threshold": 80,
+      "AlarmDescription": "If our cluster CPU utilization goes above 50",
+      "AlarmActions": [ { "Ref": "WebInstancesScaleUpPolicy" } ],
+      "Namespace": "AWS/ECS",
+      "Dimensions": [
+        {
+          "Name": "ClusterName",
+          "Value": {
+            "Ref": "ECSServiceCluster"
+          }
+        }
+      ],
+      "ComparisonOperator": "GreaterThanThreshold",
+      "MetricName": "CPUUtilization"
+    }
+  },
+  "WebInstancesCpuBelow50": {
+    "Type": "AWS::CloudWatch::Alarm",
+    "Condition": "CreateAutoScalingResources",
+    "Properties": {
+      "Period": 60,
+      "EvaluationPeriods": 5,
+      "Statistic": "Average",
+      "Threshold": 50,
+      "AlarmDescription": "If our cluster CPU utilization goes below 50",
+      "AlarmActions": [ { "Ref": "WebInstancesScaleDownPolicy" } ],
+      "Namespace": "AWS/ECS",
+      "Dimensions": [
+        {
+          "Name": "ClusterName",
+          "Value": {
+            "Ref": "ECSServiceCluster"
+          }
+        }
+      ],
+      "ComparisonOperator": "LessThanThreshold",
+      "MetricName": "CPUUtilization"
+    }
+  }
+}

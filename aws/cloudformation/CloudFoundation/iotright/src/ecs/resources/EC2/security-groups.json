@@ -1,0 +1,69 @@
+{
+    "CloudInstanceSecurityGroup": {
+        "Type": "AWS::EC2::SecurityGroup",
+        "Properties": {
+            "GroupDescription": "Security group for application cloud instance",
+            "VpcId": {
+                "Fn::ImportValue": {
+                    "Fn::Sub": "${ParamsApplicationVPCStackName}-VPCId"
+                }
+            },
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Cloud Instance Security Group"
+                }
+            ],
+            "SecurityGroupIngress": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": "22",
+                    "ToPort": "22",
+                    "SourceSecurityGroupId": {
+                        "Fn::ImportValue": {
+                            "Fn::Sub": "${ParamsResourceVPCStackName}-BastionSecurityGroup"
+                        }
+                    }
+                },
+                {
+                    "IpProtocol":"tcp",
+                    "FromPort":"0",
+                    "ToPort":"65535",
+                    "SourceSecurityGroupId": { "Ref": "WebALBSecurityGroup" }
+                }
+            ]
+        }
+    },
+
+    "WebALBSecurityGroup": {
+        "Type": "AWS::EC2::SecurityGroup",
+        "Properties": {
+            "GroupDescription": "SecurityGroup for the Application Load Balancer",
+            "VpcId": {
+                "Fn::ImportValue": {
+                    "Fn::Sub": "${ParamsApplicationVPCStackName}-VPCId"
+                }
+            },
+            "Tags": [{
+                "Key": "Name",
+                "Value": "Web ALB Security Group"
+            }],
+            "SecurityGroupIngress": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": "80",
+                    "ToPort": "80",
+                    "CidrIp": "0.0.0.0/0"
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": "443",
+                    "ToPort": "443",
+                    "CidrIp": "0.0.0.0/0"
+                }
+            ]
+        }
+    }
+
+
+}

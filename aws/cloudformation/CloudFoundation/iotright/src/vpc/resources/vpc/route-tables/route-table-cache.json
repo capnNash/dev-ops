@@ -1,0 +1,69 @@
+{
+  "CacheRouteTable": {
+    "Type": "AWS::EC2::RouteTable",
+    "Condition":"CreateServiceSubnets",
+    "Properties": {
+      "VpcId": { "Ref": "VPC" },
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": {
+            "Fn::Sub": "${AWS::StackName}-cache-route-table"
+          }
+        },
+        {
+          "Key": "Owner",
+          "Value": { "Ref": "ParamAuthorName" }
+        }
+      ]
+    }
+  },
+  "RouteAssociationCacheSubnetA": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition":"CreateServiceSubnets",
+    "Properties": {
+      "SubnetId": { "Ref": "CacheSubnetA" },
+      "RouteTableId": { "Ref": "CacheRouteTable" }
+    }
+  },
+  "RouteAssociationCacheSubnetB": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition":"CreateServiceSubnets",
+    "Properties": {
+      "SubnetId": { "Ref": "CacheSubnetB" },
+      "RouteTableId": { "Ref": "CacheRouteTable" }
+    }
+  },
+  "RouteAssociationCacheSubnetC": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition": "CreateServiceSubnetsThreePlusAZs",
+    "Properties": {
+      "SubnetId": { "Ref": "CacheSubnetC" },
+      "RouteTableId": { "Ref": "CacheRouteTable" }
+    }
+  },
+  "RouteAssociationCacheSubnetD": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Properties": {
+      "SubnetId": { "Ref": "CacheSubnetD" },
+      "RouteTableId": { "Ref": "CacheRouteTable" }
+    }
+  },
+  "RouteAssociationCacheSubnetE": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Properties": {
+      "SubnetId": { "Ref": "CacheSubnetE" },
+      "RouteTableId": { "Ref": "CacheRouteTable" }
+    }
+  },
+  "RouteAssociationCacheSubnetF": {
+    "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Properties": {
+      "SubnetId": { "Ref": "CacheSubnetF" },
+      "RouteTableId": { "Ref": "CacheRouteTable" }
+    }
+  }
+}

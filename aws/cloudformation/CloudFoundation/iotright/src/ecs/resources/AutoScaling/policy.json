@@ -1,0 +1,123 @@
+{
+  "WebServiceIncreasePolicy": {
+    "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    "Condition": "CreateAutoScalingResources",
+    "Properties": {
+      "PolicyName": {
+        "Fn::Join": [
+          "-",
+          [
+            {
+              "Ref": "AWS::StackName"
+            },
+            "WebServiceIncreaseStepPolicy"
+          ]
+        ]
+      },
+      "ScalingTargetId": {
+        "Ref": "WebServiceScalingTarget"
+      },
+      "PolicyType": "StepScaling",
+      "StepScalingPolicyConfiguration": {
+        "AdjustmentType": "ChangeInCapacity",
+        "Cooldown": 300,
+        "MetricAggregationType": "Average",
+        "StepAdjustments": [
+          {
+            "MetricIntervalLowerBound": 0,
+            "MetricIntervalUpperBound": 10,
+            "ScalingAdjustment": 0
+          },
+          {
+            "MetricIntervalLowerBound": 10,
+            "MetricIntervalUpperBound": 20,
+            "ScalingAdjustment": 1
+          },
+          {
+            "MetricIntervalLowerBound": 20,
+            "ScalingAdjustment": 2
+          }
+        ]
+      }
+    }
+  },
+  "WebServiceScalingTarget": {
+    "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+    "Condition": "CreateAutoScalingResources",
+    "DependsOn": "WebService",
+    "Properties": {
+      "MinCapacity": {
+        "Ref": "MinTaskCount"
+      },
+      "MaxCapacity": {
+        "Ref": "MaxTaskCount"
+      },
+      "ResourceId": {
+        "Fn::Join": [
+          "/",
+          [
+            "service",
+            {
+              "Ref": "ECSServiceCluster"
+            },
+            {
+              "Fn::GetAtt": [
+                "WebService",
+                "Name"
+              ]
+            }
+          ]
+        ]
+      },
+      "RoleARN": {
+        "Fn::GetAtt": [
+          "WebAutoscalingRole",
+          "Arn"
+        ]
+      },
+      "ScalableDimension": "ecs:service:DesiredCount",
+      "ServiceNamespace": "ecs"
+    }
+  },
+  "WebInstancesScaleUpPolicy": {
+    "Type": "AWS::AutoScaling::ScalingPolicy",
+    "Condition": "CreateAutoScalingResources",
+    "Properties": {
+      "AdjustmentType": "ChangeInCapacity",
+      "Cooldown": 300,
+      "PolicyType": "SimpleScaling",
+      "ScalingAdjustment": 1,
+      "AutoScalingGroupName": {
+        "Ref": "WebAutoscalingGroup"
+      }
+    }
+  },
+  "WebInstancesScaleDownPolicy": {
+    "Type": "AWS::AutoScaling::ScalingPolicy",
+    "Condition": "CreateAutoScalingResources",
+    "Properties": {
+      "AdjustmentType": "ChangeInCapacity",
+      "AutoScalingGroupName": {
+        "Ref": "WebAutoscalingGroup"
+      },
+      "PolicyType": "StepScaling",
+      "EstimatedInstanceWarmup": 300,
+      "StepAdjustments": [
+        {
+          "MetricIntervalLowerBound": -10,
+          "MetricIntervalUpperBound": 0,
+          "ScalingAdjustment": 0
+        },
+        {
+          "MetricIntervalLowerBound": -20,
+          "MetricIntervalUpperBound": -10,
+          "ScalingAdjustment": -1
+        },
+        {
+          "MetricIntervalUpperBound": -20,
+          "ScalingAdjustment": -2
+        }
+      ]
+    }
+  }
+}

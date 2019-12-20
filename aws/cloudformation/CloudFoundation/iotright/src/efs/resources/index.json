@@ -1,0 +1,98 @@
+{
+  "FileSystem": {
+    "Type": "AWS::EFS::FileSystem",
+    "Properties":{
+      "PerformanceMode":"generalPurpose",
+      "FileSystemTags" : [
+        {
+          "Key" : "Name",
+          "Value" : {
+            "Ref" : "ParamVolumeName"
+          }
+        }
+      ]
+    }
+  },
+  "EFSSecurityGroup": {
+    "Type": "AWS::EC2::SecurityGroup",
+    "Properties": {
+      "GroupDescription": "SecurityGroup for EFS Volume",
+      "VpcId": {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamNetworkStackName}-VPCId"
+        }
+      }
+    }
+  },
+  "MountTarget1":{
+    "Type" : "AWS::EFS::MountTarget",
+    "Properties" : {
+      "FileSystemId" : { "Ref": "FileSystem" },
+      "SecurityGroups" : [{ "Ref": "EFSSecurityGroup" }],
+      "SubnetId" : {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamNetworkStackName}-PublicSubnetA"
+        }}
+    }
+
+  },
+  "MountTarget2":{
+    "Type" : "AWS::EFS::MountTarget",
+    "Properties" : {
+      "FileSystemId" : { "Ref": "FileSystem" },
+      "SecurityGroups" : [{ "Ref": "EFSSecurityGroup" }],
+      "SubnetId" : {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamNetworkStackName}-PublicSubnetB"
+        }}
+    }
+  },
+  "MountTarget3":{
+    "Type" : "AWS::EFS::MountTarget",
+    "Condition":"ThreePlusAZs",
+    "Properties" : {
+      "FileSystemId" : { "Ref": "FileSystem" },
+      "SecurityGroups" : [{ "Ref": "EFSSecurityGroup" }],
+      "SubnetId" : {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamNetworkStackName}-PublicSubnetC"
+        }}
+    }
+  },
+  "MountTarget4":{
+    "Type" : "AWS::EFS::MountTarget",
+    "Condition":"SixAZs",
+    "Properties" : {
+      "FileSystemId" : { "Ref": "FileSystem" },
+      "SecurityGroups" : [{ "Ref": "EFSSecurityGroup" }],
+      "SubnetId" : {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamNetworkStackName}-PublicSubnetD"
+        }}
+    }
+  },
+  "MountTarget5":{
+    "Type" : "AWS::EFS::MountTarget",
+    "Condition":"SixAZs",
+    "Properties" : {
+      "FileSystemId" : { "Ref": "FileSystem" },
+      "SecurityGroups" : [{ "Ref": "EFSSecurityGroup" }],
+      "SubnetId" : {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamNetworkStackName}-PublicSubnetE"
+        }}
+    }
+  },
+  "MountTarget6":{
+    "Type" : "AWS::EFS::MountTarget",
+    "Condition":"SixAZs",
+    "Properties" : {
+      "FileSystemId" : { "Ref": "FileSystem" },
+      "SecurityGroups" : [{ "Ref": "EFSSecurityGroup" }],
+      "SubnetId" : {
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamNetworkStackName}-PublicSubnetF"
+        }}
+    }
+  }
+}

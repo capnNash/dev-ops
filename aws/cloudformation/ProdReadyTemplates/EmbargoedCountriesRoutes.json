@@ -1,0 +1,111 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Description": "Add embargoed countries null record sets to dns name parameter ",
+
+  "Parameters": {
+    "RecordSetDNS": {
+      "Type": "String",
+      "Default": "portal.iotright.com.",
+      "Description": "the DNS name to create the geolocation filtering records set. The ending period is important"
+    },
+    "HostedZoneName": {
+      "Type": "String",
+      "Default": "iotright.com.",
+      "Description": "the hosted zone name"
+    }
+  },
+
+  "Resources": {
+    "NorthKoreaBlock": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Comment": "Deny routing to N. Korea",
+        "GeoLocation": {
+          "CountryCode": "KP"
+        },
+        "HostedZoneName": { "Ref": "HostedZoneName" },
+        "Name": { "Ref": "RecordSetDNS" },
+        "ResourceRecords": ["0.0.0.0"],
+        "SetIdentifier": "NK_NULL_SET",
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "IranBlock": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Comment": "Deny routing to Iran",
+        "GeoLocation": {
+          "CountryCode": "IR"
+        },
+        "HostedZoneName": { "Ref": "HostedZoneName" },
+        "Name": { "Ref": "RecordSetDNS" },
+        "ResourceRecords": ["0.0.0.0"],
+        "SetIdentifier": "Iran_NULL_SET",
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "SudanBlock": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Comment": "Deny routing to Sudan",
+        "GeoLocation": {
+          "CountryCode": "SD"
+        },
+        "HostedZoneName": { "Ref": "HostedZoneName" },
+        "Name": { "Ref": "RecordSetDNS" },
+        "ResourceRecords": ["0.0.0.0"],
+        "SetIdentifier": "Sudan_NULL_SET",
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "SyriaBlock": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Comment": "Deny routing to Syria",
+        "GeoLocation": {
+          "CountryCode": "SY"
+        },
+        "HostedZoneName": { "Ref": "HostedZoneName" },
+        "Name": { "Ref": "RecordSetDNS" },
+        "ResourceRecords": ["0.0.0.0"],
+        "SetIdentifier": "Syria_NULL_SET",
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "CubanBlock": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Comment": "Deny routing to Cuba",
+        "GeoLocation": {
+          "CountryCode": "CU"
+        },
+        "HostedZoneName": { "Ref": "HostedZoneName" },
+        "Name": { "Ref": "RecordSetDNS" },
+        "ResourceRecords": ["0.0.0.0"],
+        "SetIdentifier": "Cuba_NULL_SET",
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "CrimeaBlock": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Comment": "Deny routing to N. Korea",
+        "GeoLocation": {
+          "CountryCode": "UA"
+        },
+        "HostedZoneName": { "Ref": "HostedZoneName" },
+        "Name": { "Ref": "RecordSetDNS" },
+        "ResourceRecords": ["0.0.0.0"],
+        "SetIdentifier": "Crimea_NULL_SET",
+        "TTL": "300",
+        "Type": "A"
+      }
+    }
+  }
+}

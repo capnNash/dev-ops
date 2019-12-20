@@ -1,0 +1,220 @@
+{
+
+  "ParamAuthorName": {
+    "Type": "String",
+    "Default": "CloudFoundation",
+    "Description": "Added as a tag called 'Owner' to every resource for easier management."
+  },
+  "ParamECSNotificationEmail": {
+    "Type":"String",
+    "Descriptions":"email to use for ECS sns topic notifications",
+    "Default":"admin@example.com"
+  },
+  "ParamsResourceVPCStackName": {
+    "Type": "String",
+    "Description": "Name of an active CloudFormation stack that contains the common RDS, ElastiCache and VPC resources",
+    "MinLength": 1,
+    "MaxLength": 255
+  },
+  "ParamsApplicationVPCStackName": {
+    "Type": "String",
+    "Description": "Name of an active CloudFormation stack that contains the Application VPC resources",
+    "MinLength": 1,
+    "MaxLength": 255
+  },
+  "ParamsRDSStackName": {
+    "Type": "String",
+    "Description": "Name of an active CloudFormation stack that contains the RDS resources",
+    "MinLength": 1,
+    "MaxLength": 255
+  },
+  "ParamsElastiCacheStackName": {
+    "Type": "String",
+    "Description": "Name of an active CloudFormation stack that contains the ElastiCache resources",
+    "MinLength": 1,
+    "MaxLength": 255
+  },
+  "ECRCloudContainer": {
+    "Type": "String",
+    "Default":"168570742410.dkr.ecr.us-east-1.amazonaws.com/blog:latest",
+    "Description": "ECS/ECR Url of the Docker Image to deploy, with tag"
+  },
+  "SSLCertificate":{
+    "Description":"Single SSL Certificate ARN to attach to the listener on the application load balancer",
+    "Default":"arn:aws:acm:us-east-1:168570742410:certificate/c4330cb1-88c5-46a9-925b-cc5fdc6f2852",
+    "Type":"String"
+  },
+  "PublicOrPrivate":{
+    "Type":"String",
+    "Description":"Whether to deploy the application in public or private subnets",
+    "Default":"Public",
+    "AllowedValues":[
+      "Public", "Private"
+    ]
+  },
+  "SubnetIDs": {
+    "Type": "List<AWS::EC2::Subnet::Id>",
+    "Description": "Select at least two subnets in your selected VPC."
+  },
+  "ContainerPort":{
+    "Type":"Number",
+    "Default":3000,
+    "Description": "The express server port the instance and containers will use"
+  },
+  "ContainerCpu": {
+    "Type": "Number",
+    "Default": 512,
+    "Description": "How much CPU to give the container. 1024 is 1 CPU"
+  },
+  "ContainerMemory": {
+    "Type": "Number",
+    "Default": 512,
+    "Description": "How much memory in megabytes to give the container"
+  },
+  "RdsDB":{
+    "Type":"String",
+    "Default":"database",
+    "Description":"The RDS db name"
+  },
+  "RdsHost":{
+    "Type":"String",
+    "Default":"something.internal",
+    "Description":"The RDS Hostname within a private hosted zone in route53"
+  },
+  "RdsPass":{
+    "Type":"String",
+    "Default":"<password>",
+    "Description":"The RDS Password"
+  },
+  "RdsPort":{
+    "Type":"String",
+    "Default":"3306",
+    "Description":"The RDS Port"
+  },
+  "RdsUser":{
+    "Type":"String",
+    "Default":"CC_admin",
+    "Description":"The RDS username"
+  },
+  "RailsSecretKey":{
+    "Type":"String",
+    "Default":"rails secret key",
+    "Description":"The rails secret key"
+  },
+  "SendgridAPIKey":{
+    "Type":"String",
+    "Default":"sendgrid api key",
+    "Description":"The sendgrid api key"
+  },
+  "StripeAPIKey":{
+    "Type":"String",
+    "Default":"stripe api key",
+    "Description":"The stripe api key"
+  },
+  "StripePublishKey":{
+    "Type":"String",
+    "Default":"stripe publish key",
+    "Description":"The stripe publish key"
+  },
+  "StripeSignSecret":{
+    "Type":"String",
+    "Default":"stripe signing secret",
+    "Description":"The stripe signing secret"
+  },
+  "RackEnv":{
+    "Type":"String",
+    "Default":"production",
+    "Description":"The rack env"
+  },
+  "RailsEnv":{
+    "Type":"String",
+    "Default":"production",
+    "Description":"The rails env"
+  },
+  "WebInstanceType": {
+    "Description":"EC2 instance type for web service",
+    "Type":"String",
+    "Default":"t3.large",
+    "AllowedValues":[
+      "t2.micro",
+      "t2.small",
+      "t2.medium",
+      "t2.large",
+      "t2.xlarge",
+      "t22.2xlarge",
+      "t3.nano",
+      "t3.micro",
+      "t3.small",
+      "t3.medium",
+      "t3.large",
+      "t3.xlarge",
+      "t3.2xlarge",
+      "m4.large",
+      "m4.xlarge",
+      "m4.2xlarge",
+      "m4.4xlarge",
+      "m4.10xlarge",
+      "m4.16xlarge",
+      "m5.large",
+      "m5.xlarge",
+      "m5.2xlarge",
+      "m5.4xlarge",
+      "m5.12xlarge",
+      "m5.24xlarge",
+      "m5a.large",
+      "m5a.xlarge",
+      "m5a.2xlarge",
+      "m5a.4xlarge",
+      "m5a.12xlarge",
+      "m5a.24xlarge"
+    ],
+    "ConstraintDescription":"Please choose a valid instance type."
+  },
+  "KeyPairName":{
+    "Type": "AWS::EC2::KeyPair::KeyName",
+    "Description": "Name of an existing EC2 KeyPair to enable SSH access to the ECS instances."
+  },
+  "DesiredCapacity": {
+    "Type": "Number",
+    "Default": "2",
+    "Description": "Number of instances to launch in your ECS cluster."
+  },
+  "MinSize": {
+    "Type": "Number",
+    "Default": "2",
+    "Description": "Minimum number of instances that can be launched in your ECS cluster."
+  },
+  "MaxSize": {
+    "Type": "Number",
+    "Default": "4",
+    "Description": "Maximum number of instances that can be launched in your ECS cluster."
+  },
+  "DesiredTaskCount": {
+    "Type": "Number",
+    "Default": "4",
+    "Description": "Desired Count of service tasks to launch in your ECS cluster."
+  },
+  "MinTaskCount": {
+    "Type": "Number",
+    "Default": "2",
+    "Description": "Min Number of service tasks to scale down to."
+  },
+  "MaxTaskCount": {
+    "Type": "Number",
+    "Default": "8",
+    "Description": "Max Number of service tasks to scale up to."
+  },
+  "Autoscale": {
+    "Type": "String",
+    "Default": "true",
+    "AllowedValues": ["true", "false"],
+    "ConstraintDescription":"true or false only"
+  },
+  "ALBScheme": {
+    "Type": "String",
+    "Default": "internet-facing",
+    "AllowedValues": ["internet-facing", "internal"],
+    "ConstraintDescription":"internet-facing or internal only"
+  }
+
+}

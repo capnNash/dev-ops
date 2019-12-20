@@ -1,0 +1,38 @@
+{
+
+  "ParamAuthorName": {
+    "Type": "String",
+    "Default": "wkhatch",
+    "Description": "Added as a tag called 'Owner' to every resource for easier management."
+  },
+
+  "ParamNetworkStackName": {
+    "Type": "String",
+    "Description": "Name of an active CloudFormation stack that contains the networking / VPC resources",
+    "MinLength": 1,
+    "MaxLength": 255,
+    "AllowedPattern": "^[a-zA-Z][-a-zA-Z0-9]*$"
+  },
+  "ParamCacheNodeType": {
+    "Description":"Elasticache Node instance type",
+    "Type":"String",
+    "Default":"cache.t2.micro",
+    "AllowedValues":[
+      "cache.t2.micro",
+      "cache.t2.small",
+      "cache.t2.medium",
+      "cache.m4.large",
+      "cache.m4.xlarge",
+      "cache.m4.2xlarge",
+      "cache.m4.4xlarge",
+      "cache.m4.10xlarge",
+      "cache.r4.large",
+      "cache.r4.xlarge",
+      "cache.r4.2xlarge",
+      "cache.r4.4xlarge",
+      "cache.r4.8xlarge",
+      "cache.r4.16xlarge"
+    ],
+    "ConstraintDescription":"Please choose a valid instance type."
+  }
+}

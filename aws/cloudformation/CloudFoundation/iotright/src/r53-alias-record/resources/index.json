@@ -1,0 +1,27 @@
+{
+  "WebALBDNS" : {
+    "Type" : "AWS::Route53::RecordSetGroup",
+    "Properties" : {
+      "HostedZoneName" : {
+        "Ref":"HostedZone"
+      },
+      "Comment" : "Zone alias record, probably targeting an ALB URL.",
+      "RecordSets" : [
+        {
+          "Name" : {
+            "Ref":"AliasURL"
+          },
+          "Type" : "A",
+          "AliasTarget" : {
+            "HostedZoneId" : {
+              "Fn::ImportValue" : {
+                "Fn::Sub": "${ALBStack}-ALB-CanonicalHostedZoneID"
+              }
+            },
+            "DNSName" : { "Ref" : "DNSNameToAliasTo" }
+          }
+        }
+      ]
+    }
+  }
+}

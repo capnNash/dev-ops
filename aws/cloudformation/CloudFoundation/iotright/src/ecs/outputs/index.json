@@ -1,0 +1,83 @@
+{
+  "EcsCluster": {
+    "Description": "The name of created cluster",
+    "Value": {"Ref": "ECSServiceCluster"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ECSCluster"
+      }
+    }
+  },
+  "WebService":{
+    "Description":"The name of the web service",
+    "Value":{"Ref":"WebService"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ECSService"
+      }
+    }
+  },
+  "ApplicationLoadBalancer":{
+    "Description":"ARN of ALB",
+    "Value":{"Ref":"WebALB"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ALB-Id"
+      }
+    }
+  },
+  "ApplicationLoadBalancerDNS":{
+    "Description":"DNS URL of ALB",
+    "Value":{"Fn::GetAtt":["WebALB", "DNSName"] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ALB-DNS"
+      }
+    }
+  },
+  "ALBHostedZoneId":{
+    "Description":"CanonicalHostedZoneID of ALB",
+    "Value":{"Fn::GetAtt":["WebALB", "CanonicalHostedZoneID"] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-ALB-CanonicalHostedZoneID"
+      }
+    }
+  },
+  "ECSSNSTopicName":{
+    "Description":"ARN of SNS ECS Topic",
+    "Value":{"Fn::GetAtt":["ECSAlarmsTopic", "TopicName"] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-SNS-ECS-TopicName"
+      }
+    }
+  },
+  "ECSSNSTopicARN":{
+    "Description":"ARN of SNS ECS Topic",
+    "Value":{"Ref":"ECSAlarmsTopic" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-SNS-ECS-Id"
+      }
+    }
+  },
+  "WebTaskLogGroupName":{
+    "Description":"ARN of SNS ECS Topic",
+    "Value":{"Ref":"WebTaskLogs" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-Cloudwatch-LogGroupName"
+      }
+    }
+  },
+  "WebTaskLogGroupARN":{
+    "Description":"ARN of SNS ECS Topic",
+    "Value":{"Fn::GetAtt":["WebTaskLogs", "Arn"]},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-Cloudwatch-LogGroupARN"
+      }
+    }
+  }
+}

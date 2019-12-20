@@ -1,0 +1,24 @@
+{
+  "WebALBDNS" : {
+    "Type" : "AWS::Route53::RecordSetGroup",
+    "DependsOn":"WebALB",
+    "Properties" : {
+      "HostedZoneName" : {
+        "Ref":"HostedZone"
+      },
+      "Comment" : "Zone apex alias targeted to Web Aplication LoadBalancer.",
+      "RecordSets" : [
+        {
+          "Name" : {
+            "Ref":"WebLoadBalancerAlias"
+          },
+          "Type" : "A",
+          "AliasTarget" : {
+            "HostedZoneId" : { "Fn::GetAtt" : ["WebALB", "CanonicalHostedZoneID"] },
+            "DNSName" : { "Fn::GetAtt" : ["WebALB","DNSName"] }
+          }
+        }
+      ]
+    }
+  }
+}

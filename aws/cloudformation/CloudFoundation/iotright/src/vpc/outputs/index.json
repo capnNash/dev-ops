@@ -1,0 +1,674 @@
+{
+  "StackId": {
+    "Description": "Cloudformation Stack Id",
+    "Value": { "Ref": "AWS::StackId" }
+  },
+  "StackName": {
+    "Description": "Cloudformation Stack Name",
+    "Value": { "Ref": "AWS::StackName" }
+  },
+  "VPCId": {
+    "Description": "VPC Id",
+    "Value": {
+      "Ref": "VPC"
+    },
+    "Export": {
+      "Name":{
+        "Fn::Sub": "${AWS::StackName}-VPCId"
+      }
+    }
+  },
+  "VPCCidr": {
+    "Description": "The CidrBlock of the VPC",
+    "Value":{
+      "Fn::GetAtt": ["VPC", "CidrBlock"]
+    },
+    "Export": {
+      "Name":{
+        "Fn::Sub": "${AWS::StackName}-VPCCidr"
+      }
+    }
+  },
+  "PublicSubnets": {
+    "Description": "List of Public Subnet Ids",
+    "Value": {
+      "Fn::If": [
+        "TwoAZs",
+        {
+          "Fn::Join": [
+            ",",
+            [
+              { "Ref": "PublicSubnetA" },
+              { "Ref": "PublicSubnetB" }
+            ]
+          ]
+        },
+        {
+          "Fn::If": [
+            "ThreeAZs",
+            {
+              "Fn::Join": [
+                ",",
+                [
+                  { "Ref": "PublicSubnetA" },
+                  { "Ref": "PublicSubnetB" },
+                  { "Ref": "PublicSubnetC" }
+                ]
+              ]
+            },
+           {
+              "Fn::Join": [
+                ",",
+                [
+                  { "Ref": "PublicSubnetA" },
+                  { "Ref": "PublicSubnetB" },
+                  { "Ref": "PublicSubnetC" },
+                  { "Ref": "PublicSubnetD" },
+                  { "Ref": "PublicSubnetE" },
+                  { "Ref": "PublicSubnetF" }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicSubnets"
+      }
+    }
+  },
+  "PublicSubnetA": {
+    "Description": "Public Subnet A's Id",
+    "Value": { "Ref": "PublicSubnetA" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicSubnetA"
+      }
+    }
+  },
+  "PublicSubnetB": {
+    "Description": "Public Subnet B's Id",
+    "Value": { "Ref": "PublicSubnetB" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicSubnetB"
+      }
+    }
+  },
+  "PublicSubnetC": {
+    "Condition": "ThreePlusAZs",
+    "Description": "Public Subnet C's Id",
+    "Value": { "Ref": "PublicSubnetC" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicSubnetC"
+      }
+    }
+  },
+  "PublicSubnetD": {
+    "Condition": "SixAZs",
+    "Description": "Public Subnet D's Id",
+    "Value": { "Ref": "PublicSubnetD" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicSubnetD"
+      }
+    }
+  },
+  "PublicSubnetE": {
+    "Condition": "SixAZs",
+    "Description": "Public Subnet E's Id",
+    "Value": {
+      "Ref": "PublicSubnetE"
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicSubnetE"
+      }
+    }
+  },
+  "PublicSubnetF": {
+    "Condition": "SixAZs",
+    "Description": "Public Subnet F's Id",
+    "Value": {
+      "Ref": "PublicSubnetF"
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicSubnetF"
+      }
+    }
+  },
+  "PrivateSubnets": {
+    "Description": "List of Private Subnet Ids",
+    "Value": {
+      "Fn::If": [
+        "TwoAZs",
+        {
+          "Fn::Join": [
+            ",",
+            [
+              { "Ref": "PrivateSubnetA" },
+              { "Ref": "PrivateSubnetB" }
+            ]
+          ]
+        },
+        {
+          "Fn::If": [
+            "ThreeAZs",
+            {
+              "Fn::Join": [
+                ",",
+                [
+                  { "Ref": "PrivateSubnetA" },
+                  { "Ref": "PrivateSubnetB" },
+                  { "Ref": "PrivateSubnetC" }
+                ]
+              ]
+            },
+           {
+              "Fn::Join": [
+                ",",
+                [
+                  { "Ref": "PrivateSubnetA" },
+                  { "Ref": "PrivateSubnetB" },
+                  { "Ref": "PrivateSubnetC" },
+                  { "Ref": "PrivateSubnetD" },
+                  { "Ref": "PrivateSubnetE" },
+                  { "Ref": "PrivateSubnetF" }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PrivateSubnets"
+      }
+    }
+  },
+  "PrivateSubnetA": {
+    "Description": "Private Subnet A's Id",
+    "Value": { "Ref": "PrivateSubnetA" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PrivateSubnetA"
+      }
+    }
+  },
+  "PrivateSubnetB": {
+    "Description": "Private Subnet B's Id",
+    "Value": { "Ref": "PrivateSubnetB" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PrivateSubnetB"
+      }
+    }
+  },
+  "PrivateSubnetC": {
+    "Condition": "ThreePlusAZs",
+    "Description": "Private Subnet C's Id",
+    "Value": {
+      "Ref": "PrivateSubnetC"
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PrivateSubnetC"
+      }
+    }
+  },
+  "PrivateSubnetD": {
+    "Condition": "SixAZs",
+    "Description": "Private Subnet D's Id",
+    "Value": {
+      "Ref": "PrivateSubnetD"
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PrivateSubnetD"
+      }
+    }
+  },
+  "PrivateSubnetE": {
+    "Condition": "SixAZs",
+    "Description": "Private Subnet E's Id",
+    "Value": {
+      "Ref": "PrivateSubnetE"
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PrivateSubnetE"
+      }
+    }
+  },
+  "PrivateSubnetF": {
+    "Condition": "SixAZs",
+    "Description": "Private Subnet F's Id",
+    "Value": {
+      "Ref": "PrivateSubnetF"
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PrivateSubnetF"
+      }
+    }
+  },
+  "DbSubnets": {
+    "Description": "List of Db Subnet Ids",
+    "Condition":"CreateServiceSubnets",
+    "Value": {
+      "Fn::If": [
+        "TwoAZs",
+        {
+          "Fn::Join": [
+            ",",
+            [
+              { "Ref": "DbSubnetA" },
+              { "Ref": "DbSubnetB" }
+            ]
+          ]
+        },
+        {
+          "Fn::If": [
+            "ThreeAZs",
+            {
+              "Fn::Join": [
+                ",",
+                [
+                  { "Ref": "DbSubnetA" },
+                  { "Ref": "DbSubnetB" },
+                  { "Ref": "DbSubnetC" }
+                ]
+              ]
+            },
+           {
+              "Fn::Join": [
+                ",",
+                [
+                  { "Ref": "DbSubnetA" },
+                  { "Ref": "DbSubnetB" },
+                  { "Ref": "DbSubnetC" },
+                  { "Ref": "DbSubnetD" },
+                  { "Ref": "DbSubnetE" },
+                  { "Ref": "DbSubnetF" }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnets"
+      }
+    }
+  },
+  "DbSubnetA": {
+    "Description": "Db Subnet A's Id",
+    "Condition":"CreateServiceSubnets",
+    "Value": { "Ref": "DbSubnetA" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetA"
+      }
+    }
+  },
+  "DbSubnetAAZ": {
+    "Description": "Db Subnet A's AZ",
+    "Condition":"CreateServiceSubnets",
+    "Value": { "Fn::GetAtt": [ "DbSubnetA", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetAAZ"
+      }
+    }
+  },
+  "DbSubnetB": {
+    "Description": "Db Subnet B's Id",
+    "Condition":"CreateServiceSubnets",
+    "Value": { "Ref": "DbSubnetB" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetB"
+      }
+    }
+  },
+  "DbSubnetBAZ": {
+    "Description": "Db Subnet B's AZ",
+    "Condition":"CreateServiceSubnets",
+    "Value": { "Fn::GetAtt": [ "DbSubnetB", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetBAZ"
+      }
+    }
+  },
+  "DbSubnetC": {
+    "Condition": "CreateServiceSubnetsThreePlusAZs",
+    "Description": "Db Subnet C's Id",
+    "Value": { "Ref": "DbSubnetC" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetC"
+      }
+    }
+  },
+  "DbSubnetCAZ": {
+    "Condition": "CreateServiceSubnetsThreePlusAZs",
+    "Description": "Db Subnet C's AZ",
+    "Value": { "Fn::GetAtt": [ "DbSubnetC", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetCAZ"
+      }
+    }
+  },
+  "DbSubnetD": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Db Subnet D's Id",
+    "Value": { "Ref": "DbSubnetD" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetD"
+      }
+    }
+  },
+  "DbSubnetDAZ": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Db Subnet D's AZ",
+    "Value": { "Fn::GetAtt": [ "DbSubnetD", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetDAZ"
+      }
+    }
+  },
+  "DbSubnetE": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Db Subnet E's Id",
+    "Value": { "Ref": "DbSubnetE" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetE"
+      }
+    }
+  },
+  "DbSubnetEAZ": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Db Subnet E's AZ",
+    "Value": { "Fn::GetAtt": [ "DbSubnetE", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetEAZ"
+      }
+    }
+  },
+  "DbSubnetF": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Db Subnet F's Id",
+    "Value": { "Ref": "DbSubnetF" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetF"
+      }
+    }
+  },
+  "DbSubnetFAZ": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Db Subnet F's AZ",
+    "Value": { "Fn::GetAtt": [ "DbSubnetF", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-DbSubnetFAZ"
+      }
+    }
+  },
+  "CacheSubnets": {
+    "Description": "List of Cache Subnet Ids",
+    "Condition": "CreateServiceSubnets",
+    "Value": {
+      "Fn::If": [
+        "TwoAZs",
+        {
+          "Fn::Join": [
+            ",",
+            [
+              { "Ref": "CacheSubnetA" },
+              { "Ref": "CacheSubnetB" }
+            ]
+          ]
+        },
+        {
+          "Fn::If": [
+            "ThreeAZs",
+            {
+              "Fn::Join": [
+                ",",
+                [
+                  { "Ref": "CacheSubnetA" },
+                  { "Ref": "CacheSubnetB" },
+                  { "Ref": "CacheSubnetC" }
+                ]
+              ]
+            },
+            {
+              "Fn::Join": [
+                ",",
+                [
+                  { "Ref": "CacheSubnetA" },
+                  { "Ref": "CacheSubnetB" },
+                  { "Ref": "CacheSubnetC" },
+                  { "Ref": "CacheSubnetD" },
+                  { "Ref": "CacheSubnetE" },
+                  { "Ref": "CacheSubnetF" }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnets"
+      }
+    }
+  },
+  "CacheSubnetA": {
+    "Description": "Cache Subnet A's Id",
+    "Condition": "CreateServiceSubnets",
+    "Value": { "Ref": "CacheSubnetA" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetA"
+      }
+    }
+  },
+  "CacheSubnetAAZ": {
+    "Description": "Cache Subnet A's AZ",
+    "Condition": "CreateServiceSubnets",
+    "Value": { "Fn::GetAtt": [ "CacheSubnetA", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetAAZ"
+      }
+    }
+  },
+  "CacheSubnetB": {
+    "Description": "Cache Subnet B's Id",
+    "Condition": "CreateServiceSubnets",
+    "Value": { "Ref": "CacheSubnetB" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetB"
+      }
+    }
+  },
+  "CacheSubnetBAZ": {
+    "Description": "Cache Subnet B's AZ",
+    "Condition": "CreateServiceSubnets",
+    "Value": { "Fn::GetAtt": [ "CacheSubnetB", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetBAZ"
+      }
+    }
+  },
+  "CacheSubnetC": {
+    "Condition": "CreateServiceSubnetsThreePlusAZs",
+    "Description": "Cache Subnet C's Id",
+    "Value": { "Ref": "CacheSubnetC" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetC"
+      }
+    }
+  },
+  "CacheSubnetCAZ": {
+    "Condition": "CreateServiceSubnetsThreePlusAZs",
+    "Description": "Cache Subnet C's AZ",
+    "Value": { "Fn::GetAtt": [ "CacheSubnetC", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetCAZ"
+      }
+    }
+  },
+  "CacheSubnetD": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Cache Subnet D's Id",
+    "Value": { "Ref": "CacheSubnetD" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetD"
+      }
+    }
+  },
+  "CacheSubnetDAZ": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Cache Subnet D's AZ",
+    "Value": { "Fn::GetAtt": [ "CacheSubnetD", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetDAZ"
+      }
+    }
+  },
+  "CacheSubnetE": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Cache Subnet E's Id",
+    "Value": { "Ref": "CacheSubnetE" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetE"
+      }
+    }
+  },
+  "CacheSubnetEAZ": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Cache Subnet E's AZ",
+    "Value": { "Fn::GetAtt": [ "CacheSubnetE", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetEAZ"
+      }
+    }
+  },
+  "CacheSubnetF": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Cache Subnet F's Id",
+    "Value": { "Ref": "CacheSubnetF" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetF"
+      }
+    }
+  },
+  "CacheSubnetFAZ": {
+    "Condition": "CreateServiceSubnetsSixAZs",
+    "Description": "Cache Subnet F's AZ",
+    "Value": { "Fn::GetAtt": [ "CacheSubnetF", "AvailabilityZone" ] },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-CacheSubnetFAZ"
+      }
+    }
+  },
+  "BastionSecurityGroup": {
+    "Description": "Bastion Security Group",
+    "Condition": "CreateBastion",
+    "Value": { "Ref": "BastionSecurityGroup" },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-BastionSecurityGroup"
+      }
+    }
+  },
+  "BastionPublicDNS": {
+    "Description": "Bastion Public DNS",
+    "Condition": "CreateBastion",
+    "Value": {
+      "Fn::GetAtt": ["BastionInstance", "PublicDnsName"]
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicDnsName"
+      }
+    }
+  },
+  "BastionPublicIp": {
+    "Description": "Bastion Public DNS",
+    "Condition": "CreateBastion",
+    "Value": {
+      "Fn::GetAtt": ["BastionInstance", "PublicIp"]
+    },
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-PublicIp"
+      }
+    }
+  },
+  "PrivateRouteTable":{
+    "Description":"Route table id for private routing table",
+    "Value":{"Ref":"PrivateRouteTable"},
+    "Export":{
+      "Name":{
+        "Fn::Sub": "${AWS::StackName}-PrivateRouteTable"
+      }
+    }
+  },
+  "PublicRouteTable":{
+    "Description":"Route table id for public routing table",
+    "Value":{"Ref":"PublicRouteTable"},
+    "Export":{
+      "Name":{
+        "Fn::Sub": "${AWS::StackName}-PublicRouteTable"
+      }
+    }
+  },
+  "DbRouteTable":{
+    "Description":"Route table id for aurora routing table",
+    "Condition":"CreateServiceSubnets",
+    "Value":{"Ref":"DbRouteTable"},
+    "Export":{
+      "Name":{
+        "Fn::Sub": "${AWS::StackName}-DbRouteTable"
+      }
+    }
+  },
+  "CacheRouteTable":{
+    "Description":"Route table id for elasticache routing table",
+    "Condition":"CreateServiceSubnets",
+    "Value":{"Ref":"CacheRouteTable"},
+    "Export":{
+      "Name":{
+        "Fn::Sub": "${AWS::StackName}-CacheRouteTable"
+      }
+    }
+  }
+}

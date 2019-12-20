@@ -1,0 +1,86 @@
+{
+  "StackId": {
+    "Description": "Cloudformation Stack Id",
+    "Value": { "Ref": "AWS::StackId" }
+  },
+  "StackName": {
+    "Description": "Cloudformation Stack Name",
+    "Value": { "Ref": "AWS::StackName" }
+  },
+  "EFSVolume":{
+    "Description":"EFS Volume ARN",
+    "Value":{"Ref":"FileSystem"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-EFSVolumeId"
+      }
+    }
+  },
+  "EFSSecurityGroup":{
+    "Description":"EFS SecurityGroup ARN",
+    "Value":{"Ref":"EFSSecurityGroup"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-SecurityGroup"
+      }
+    }
+  },
+  "MountTarget1":{
+    "Description":"EFS Mount 1",
+    "Value":{"Ref":"MountTarget1"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-MountTarget1"
+      }
+    }
+  },
+  "MountTarget2":{
+    "Description":"EFS Mount 2",
+    "Value":{"Ref":"MountTarget2"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-MountTarget2"
+      }
+    }
+  },
+  "MountTarget3":{
+    "Description":"EFS Mount 3",
+    "Condition":"ThreePlusAZs",
+    "Value":{"Ref":"MountTarget1"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-MountTarget3"
+      }
+    }
+  },
+  "MountTarget4":{
+    "Description":"EFS Mount 4",
+    "Condition":"SixAZs",
+    "Value":{"Ref":"MountTarget4"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-MountTarget4"
+      }
+    }
+  },
+  "MountTarget5":{
+    "Description":"EFS Mount 5",
+    "Condition":"SixAZs",
+    "Value":{"Ref":"MountTarget5"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-MountTarget5"
+      }
+    }
+  },
+  "MountTarget6":{
+    "Description":"EFS Mount 6",
+    "Condition":"SixAZs",
+    "Value":{"Ref":"MountTarget6"},
+    "Export": {
+      "Name": {
+        "Fn::Sub": "${AWS::StackName}-MountTarget6"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "ECRRepository": {
+    "Type": "AWS::ECR::Repository",
+    "Properties": {
+      "RepositoryName": {
+        "Ref": "RepositoryName"
+      },
+      "Tags": [
+        {
+          "Key": "Owner",
+          "Value": { "Ref": "ParamAuthorName" }
+        }
+      ]
+    }
+  }
+}

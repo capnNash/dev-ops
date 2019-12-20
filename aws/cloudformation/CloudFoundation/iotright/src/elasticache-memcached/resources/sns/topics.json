@@ -1,0 +1,9 @@
+{
+  "ElastiCacheAlarmsTopic": {
+    "Type" : "AWS::SNS::Topic",
+    "Properties" : {
+      "DisplayName" : "ElastiCacheSNSTopic",
+      "TopicName" : "ElastiCache"
+    }
+  }
+}

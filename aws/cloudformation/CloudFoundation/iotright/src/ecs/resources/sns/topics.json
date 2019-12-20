@@ -1,0 +1,66 @@
+{
+  "ECSAlarmsTopic": {
+    "Type": "AWS::SNS::Topic",
+    "Properties": {
+      "DisplayName": {
+        "Fn::Sub": "${AWS::StackName} ECS Alarms Topic"
+      }
+    }
+  },
+  "ECSAlarmsTopicPolicy": {
+    "Type": "AWS::SNS::TopicPolicy",
+    "Properties": {
+      "Topics": [
+        { "Ref": "ECSAlarmsTopic" }
+      ],
+      "PolicyDocument": {
+        "Id": "Pd1",
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "Sid1",
+            "Effect": "Allow",
+            "Principal": {
+              "Service": [
+                "ecs.amazonaws.com"
+              ]
+            },
+            "Action": [
+              "SNS:Publish"
+            ],
+            "Resource": { "Ref": "ECSAlarmsTopic" },
+            "Condition": {
+              "StringEquals": {
+                "AWS:SourceOwner": { "Ref": "AWS::AccountId" }
+              }
+            }
+          },
+          {
+            "Sid": "Sid2",
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "*"
+            },
+            "Action": [
+              "SNS:Publish"
+            ],
+            "Resource": { "Ref": "ECSAlarmsTopic" },
+            "Condition": {
+              "StringEquals": {
+                "AWS:SourceOwner": { "Ref": "AWS::AccountId" }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "ECSEmailSub" : {
+    "Type": "AWS::SNS::Subscription",
+    "Properties": {
+      "Endpoint": { "Ref": "ParamECSNotificationEmail" },
+      "Protocol": "email",
+      "TopicArn": { "Ref": "ECSAlarmsTopic" }
+    }
+  }
+}

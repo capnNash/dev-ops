@@ -1,0 +1,19 @@
+{
+  "AWSRegionECSAMI":{
+    "us-east-1": { "ID" : "ami-0eeb334a4b083a5ea" },
+    "us-east-2": { "ID" : "ami-ef64528a" },
+    "us-west-1": { "ID" : "ami-29b8b249" },
+    "us-west-2": { "ID" : "ami-baa236c2" },
+    "eu-west-1": { "ID" : "ami-64c4871d" },
+    "eu-west-2": { "ID" : "ami-25f51242" },
+    "eu-west-3": { "ID" : "ami-0356e07e" },
+    "eu-central-1": { "ID" : "ami-3b7d1354" },
+    "ap-northeast-1": { "ID" : "ami-bb5f13dd" },
+    "ap-northeast-2": { "ID" : "ami-3b19b455" },
+    "ap-southeast-1": { "ID" : "ami-f88ade84" },
+    "ap-southeast-2": { "ID" : "ami-a677b6c4" },
+    "ap-south-1": { "ID" : "ami-9e91cff1" },
+    "sa-east-1": { "ID" : "ami-da2c66b6" },
+    "ca-central-1": { "ID" : "ami-db48cfbf" }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "WebALBTargetGroup": {
+    "Type":"AWS::ElasticLoadBalancingV2::TargetGroup",
+    "DependsOn": "WebALB",
+    "Properties": {
+      "HealthCheckPath":"/isUp",
+      "HealthCheckProtocol":"HTTP",
+      "HealthCheckIntervalSeconds":30,
+      "HealthCheckTimeoutSeconds":5,
+      "HealthyThresholdCount":2,
+      "UnhealthyThresholdCount":2,
+      "Port":{
+        "Ref":"ContainerPort"
+      },
+      "Protocol":"HTTP",
+      "VpcId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamsApplicationVPCStackName}-VPCId"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "Arn": {
+    "Value": {
+      "Fn::GetAtt": [
+        "ECRRepository",
+        "Arn"
+      ]
+    }
+  }
+}

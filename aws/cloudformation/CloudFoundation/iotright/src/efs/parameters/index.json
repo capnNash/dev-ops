@@ -1,0 +1,20 @@
+{
+  "ParamAuthorName": {
+    "Type": "String",
+    "Default": "CloudFoundation",
+    "Description": "Added as a tag called 'Owner' to every resource for easier management."
+  },
+  "ParamNetworkStackName": {
+    "Type": "String",
+    "Description": "Name of an active CloudFormation stack that contains the networking / VPC resources",
+    "MinLength": 1,
+    "MaxLength": 255,
+    "AllowedPattern": "^[a-zA-Z][-a-zA-Z0-9]*$"
+  },
+  "ParamVolumeName" : {
+    "Description" : "The name to be used for the EFS volume",
+    "Type": "String",
+    "MinLength": "1",
+    "Default": "EFSVolume"
+  }
+}

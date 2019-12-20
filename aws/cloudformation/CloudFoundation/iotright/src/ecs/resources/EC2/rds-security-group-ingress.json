@@ -1,0 +1,18 @@
+{
+  "RDSSecurityGroupIngressFromWeb":{
+    "Type":"AWS::EC2::SecurityGroupIngress",
+    "Properties":{
+      "IpProtocol": "tcp",
+      "FromPort": {"Ref":"RdsPort"},
+      "ToPort": {"Ref":"RdsPort"},
+      "GroupId":{
+        "Fn::ImportValue": {
+          "Fn::Sub": "${ParamsRDSStackName}-DBClusterSecurityGroup"
+        }
+      },
+      "SourceSecurityGroupId": {
+        "Ref":"CloudInstanceSecurityGroup"
+      }
+    }
+  }
+}

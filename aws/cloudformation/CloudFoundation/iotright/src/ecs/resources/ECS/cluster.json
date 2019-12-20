@@ -1,0 +1,5 @@
+{
+  "ECSServiceCluster": {
+    "Type": "AWS::ECS::Cluster"
+  }
+}

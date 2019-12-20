@@ -1,0 +1,38 @@
+{
+
+  "CacheParameterGroupName": {
+    "Type": "AWS::ElastiCache::ParameterGroup",
+    "Properties": {
+      "CacheParameterGroupFamily": "memcached1.5",
+      "Description": "AWS::StackName",
+      "Properties": {
+      }
+    }
+  },
+  "CacheCluster": {
+    "Type": "AWS::ElastiCache::CacheCluster",
+    "Properties": {
+      "AutoMinorVersionUpgrade": true,
+      "CacheNodeType": {"Ref":"ParamCacheNodeType"},
+      "CacheParameterGroupName": {"Ref":"CacheParameterGroupName"},
+      "CacheSubnetGroupName": {"Ref":"CacheSubnetGroupName"},
+      "Engine": "memcached",
+      "Port":11211,
+      "NumCacheNodes":1,
+      "NotificationTopicArn": {"Ref":"ElastiCacheAlarmsTopic"},
+      "PreferredMaintenanceWindow": "sat:07:00-sat:08:00",
+      "VpcSecurityGroupIds": [
+        {
+          "Ref": "ElastiCacheSecurityGroup"
+        }
+      ],
+      "Tags": [
+        {
+          "Key": "Owner",
+          "Value": { "Ref": "ParamAuthorName" }
+        }
+      ]
+    }
+  }
+
+}

@@ -1,0 +1,13 @@
+rename this file to .cfdnrc and remove this comment
+
+{
+  "project": "iotright",
+  "profiles": {
+    "iotright": {
+      "aws_access_key_id": "your_access_key_here",
+      "aws_secret_access_key": "your_secret_access_key_here",
+      "region": "us-east-1",
+      "output": "json"
+    }
+  }
+}

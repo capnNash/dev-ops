@@ -1,0 +1,76 @@
+{
+  "WebALBListener": {
+    "Type":"AWS::ElasticLoadBalancingV2::Listener",
+    "Properties":{
+      "LoadBalancerArn":{
+        "Ref":"WebALB"
+      },
+      "Port":"80",
+      "Protocol":"HTTP",
+      "DefaultActions":[
+        {
+          "Type":"redirect",
+          "RedirectConfig":{
+            "Host":"#{host}",
+            "Path":"/#{path}",
+            "Port":443,
+            "Protocol":"HTTPS",
+            "Query":"#{query}",
+            "StatusCode":"HTTP_301"
+          }
+        }
+      ]
+    }
+  },
+  "WebALBSecureListener": {
+    "Type":"AWS::ElasticLoadBalancingV2::Listener",
+    "Properties":{
+      "LoadBalancerArn":{
+        "Ref":"WebALB"
+      },
+      "Port":"443",
+      "Protocol":"HTTPS",
+      "Certificates":[
+        {
+          "CertificateArn": {
+            "Ref": "SSLCertificate"
+          }
+        }
+      ],
+      "DefaultActions":[
+        {
+          "Type":"forward",
+          "TargetGroupArn":{
+            "Ref":"WebALBTargetGroup"
+          }
+        }
+      ]
+    }
+  },
+  "WebALBListenerRule": {
+    "Type":"AWS::ElasticLoadBalancingV2::ListenerRule",
+    "DependsOn": "WebALBListener",
+    "Properties": {
+      "ListenerArn": {
+        "Ref": "WebALBListener"
+      },
+      "Actions": [
+        {
+          "Type":"forward",
+          "TargetGroupArn":{
+            "Ref":"WebALBTargetGroup"
+          }
+        }
+      ],
+      "Conditions": [
+        {
+          "Field": "path-pattern",
+          "Values": [
+            "/"
+          ]
+        }
+      ],
+      "Priority": 1
+    }
+  }
+}

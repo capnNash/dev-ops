@@ -1,0 +1,18 @@
+{
+  "Author": { "Ref": "ParamAuthorName" },
+  "AWS::CloudFormation::Interface": {
+    "ParameterGroups": [
+      {
+        "Label": { "default": "General Information" },
+        "Parameters": [
+          "ParamAuthorName",
+          "RepositoryName"
+        ]
+      }
+    ],
+    "ParameterLabels": {
+      "ParamAuthorName": { "default": "Stack Author" },
+      "RepositoryName": { "default": "ECR Repository Name" }
+    }
+  }
+}
